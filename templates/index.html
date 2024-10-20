@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generatore di Testo AI</title>
+</head>
+<body>
+
+    <form id="form" method="POST" action="/genera">
+        <label for="prompt">Parla il tuo input:</label><br>
+        <button type="button" id="start-recording">Inizia Registrazione</button>
+        <button type="button" id="stop-recording" disabled>Termina Registrazione</button><br><br>
+        <input type="hidden" name="prompt" id="voiceInput"><br><br>
+        <button type="submit">Genera Audio</button>
+    </form>
+
+    <div id="risultato"></div>
+    <button type="button" id="stop-audio" disabled>Termina Audio</button> <!-- Pulsante per fermare l'audio -->
+
+    <script>
+        const startButton = document.getElementById("start-recording");
+        const stopButton = document.getElementById("stop-recording");
+        const stopAudioButton = document.getElementById("stop-audio"); // Pulsante per fermare l'audio
+        const voiceInput = document.getElementById("voiceInput");
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'it-IT';  // Usa 'it-IT' per l'italiano
+        let audio;  // Variabile per l'audio
+
+        // Avvia la registrazione
+        startButton.addEventListener("click", () => {
+            recognition.start();
+            startButton.disabled = true;  // Disabilita il pulsante di avvio
+            stopButton.disabled = false;  // Abilita il pulsante di stop
+        });
+
+        // Ferma la registrazione
+        stopButton.addEventListener("click", () => {
+            recognition.stop();
+            stopButton.disabled = true;  // Disabilita il pulsante di stop
+            startButton.disabled = false;  // Riabilita il pulsante di avvio
+        });
+
+        // Quando la registrazione è terminata
+        recognition.onresult = function(event) {
+            const transcript = event.results[0][0].transcript;
+            voiceInput.value = transcript;  // Imposta il testo trascritto nel campo hidden
+        };
+
+        // Gestione del form per l'invio asincrono
+        const form = document.getElementById('form');
+        form.onsubmit = async (event) => {
+            event.preventDefault();
+
+            // Se c'è già un audio in riproduzione, fermalo prima di generare uno nuovo
+            if (audio) {
+                audio.pause();
+                audio.currentTime = 0;  // Riporta l'audio all'inizio
+                audio = null;  // Reset della variabile
+            }
+
+            // Mostra un messaggio di caricamento
+            document.getElementById('risultato').innerText = "Generazione in corso...";
+
+            const formData = new FormData(form);
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById('risultato').innerText = data.testo;
+
+                // Aggiungi un timestamp all'URL dell'audio per evitare che venga preso dalla cache
+                const audioUrl = `${data.audio_url}?t=${new Date().getTime()}`;
+
+                // Crea un nuovo oggetto Audio per il nuovo file
+                audio = new Audio(audioUrl);
+                audio.play();
+                stopAudioButton.disabled = false;  // Abilita il pulsante per fermare l'audio
+            } else {
+                document.getElementById('risultato').innerText = "Errore durante la generazione.";
+            }
+        };
+
+        // Pulsante per fermare l'audio
+        stopAudioButton.addEventListener("click", () => {
+            if (audio) {
+                audio.pause();  // Ferma la riproduzione dell'audio
+                audio.currentTime = 0;  // Riavvolge l'audio all'inizio
+                audio = null;  // Resetta la variabile per assicurarsi che l'audio non venga riprodotto di nuovo
+            }
+            stopAudioButton.disabled = true;  // Disabilita il pulsante dopo aver fermato l'audio
+        });
+    </script>
+
+</body>
+</html>
