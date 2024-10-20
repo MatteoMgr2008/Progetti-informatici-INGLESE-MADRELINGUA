@@ -13,8 +13,10 @@ def index():
 # Route per generare l'audio
 @app.route('/genera', methods=['POST'])
 def genera_audio():
+    cohere_api_key = os.getenv('Bvh8JLQtfFnLqV7cie8mIj4f1ICEuU8rTtHMecvO')
+    
     # Inizializza il client con la tua API key di Cohere
-    co = cohere.Client('Bvh8JLQtfFnLqV7cie8mIj4f1ICEuU8rTtHMecvO')  # Inserisci qui la tua chiave API
+    co = cohere.Client(cohere_api_key)  # Usa la chiave API dalla variabile d'ambiente
     # Accetta input dall'utente
     input_testo = request.form['prompt']
     # Definisci un prompt che includa il campo selezionato
