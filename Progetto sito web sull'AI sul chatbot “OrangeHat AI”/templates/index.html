@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="static\images\favicon.ico" type="image/x-icon">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Jersey+20+Charted&display=swap" rel="stylesheet">
+    <title>OrangeHat AI: Hack Smarter. Hack Safer.</title>
+</head>
+<body>
+    <h1 class="titoloprincipale">OrangeHat AI: Hack Smarter. Hack Safer.</h1>
+    <img src="static/images/Sfondo OrangeHat AI chatbot (logo con sfondo nero).jpg" alt="OrangeHat AI chatbot logo" title="OrangeHat AI chatbot logo" width="300" height="200" class="immaginesfondoOrangeHatAIchatbot">
+    <div class="container">
+        <h1 class="titolosecondario">Bye bye problems! Write all your ethical hacking problems below:</h1>
+        <div class="campomessaggiobot">
+            <form method="POST">
+                <input type="text" name="prompt_utente" class="immisionetestoperAI" placeholder="Ask OrangeHat AI chatbot a question..." title="Ask OrangeHat AI chatbot a question..." required>
+                <input type="submit" class="pulsanteinviomessaggio" value="Send the message!" title="Send the message!">
+            </form>
+        </div>
+        {% if response %}
+        <div class="camporispostabot">
+            <p>{{ response }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,92 @@
+body{
+    font-family: "Inter", sans-serif;
+    background-color: #FF8C00;
+    color: black;
+}
+
+button{
+    user-select: none;
+}
+
+h1{
+    user-select: none;
+}
+
+label{
+    user-select: none;
+}
+
+.immaginesfondoOrangeHatAIchatbot{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%; /* Impedisce che l'immagine superi la larghezza del contenitore */
+    height: auto; /* Mantiene le proporzioni originali dell'immagine */
+}
+
+.titoloprincipale{
+    text-align: center;
+    font-size: 40px;
+    padding-top: 10px;
+}
+
+.titolosecondario{
+    text-align: center;
+    font-size: 33px;
+    padding-top: 10px;
+}
+
+.campomessaggiobot{
+    text-align: center;
+}
+
+.immisionetestoperAI{
+    padding: 12px 24px;
+    width: 86%;
+    border: 2px solid transparent;
+    border-radius: 999px;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    user-select: none;
+}
+
+.immisionetestoperAI::placeholder {
+    color: grey;
+    opacity: 1; /* per Safari */
+}
+
+.immisionetestoperAI-input:focus {
+    background: #fff;
+    border-color: #f65b00; /* bordino arancione quando clicchi */
+    box-shadow: 0 0 8px 2px rgba(246, 91, 0, 0.5); /* alone bello acceso */
+}
+
+.pulsanteinviomessaggio{
+    padding: 12px 24px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 999px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.4s ease; /* animazione morbida */
+    box-shadow: 0 8px 16px rgba(0, 123, 255, 0.2); /* ombra carina */
+}
+
+.pulsanteinviomessaggio:hover{
+    background-color: #f65b00;
+    color: black;
+    box-shadow: 0 8px 24px rgba(0, 123, 255, 0.4); /* ombra ancora più strong */
+}
+
+.camporispostabot{
+    font-size: 20px;
+    text-align: justify;
+}
+
+.attesagenerazionerispostaAI{
+    display: none;
+    user-select: none;
+}
